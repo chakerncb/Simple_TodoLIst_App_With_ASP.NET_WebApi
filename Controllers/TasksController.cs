@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
+using api.Dtos.Tassk;
+using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -19,11 +21,12 @@ namespace api.Controllers
 
         [HttpGet]
         public IActionResult GetAll(){
-            var tasks = _context.Tasks.ToList();
+            var tasks = _context.Tasks.ToList()
+            .Select(s => s.ToTasskDto() );
             return Ok(tasks);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public IActionResult GetById([FromRoute] int id){
              var task = _context.Tasks.Find(id);
 
@@ -31,8 +34,44 @@ namespace api.Controllers
                    return NotFound();
                }
 
-             return Ok(task);
+             return Ok(task.ToTasskDto());
+        }
+
+
+        [HttpPost]
+
+        public IActionResult Create([FromBody] CreateTasskDto TasskDto){
+            var TasskModel = TasskDto.ToTasskFromCreateDto();
+            _context.Tasks.Add(TasskModel);
+            _context.SaveChanges();
+
+            return CreatedAtAction(nameof(GetById), new {id = TasskModel.Id}, TasskModel.ToTasskDto());
+        }
+
+
+        [HttpPut]
+        [Route("{id:int}")]
+
+        public IActionResult update([FromRoute] int id, [FromBody] UpdateTasskDto TasskDto){
+
+            var TasskModel = _context.Tasks.FirstOrDefault(x => x.Id == id);
+
+            if(TasskModel == null){
+                return NotFound();
+            }
+
+            TasskModel.Title = TasskDto.Title;
+            TasskModel.Description = TasskDto.Description;
+            TasskModel.Duration = TasskDto.Duration;
+            TasskModel.updatedAt = TasskDto.updatedAt;
+
+            _context.SaveChanges();
+
+            return Ok(TasskModel.ToTasskDto());
+
         }
         
     }
+
+
 }
