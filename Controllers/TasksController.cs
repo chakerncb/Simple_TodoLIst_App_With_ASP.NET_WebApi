@@ -73,6 +73,24 @@ namespace api.Controllers
             return Ok(TasskModel.ToTasskDto());
 
         }
+
+
+        [HttpDelete]
+        [Route("{id}")]
+
+        public IActionResult Delete([FromRoute] int id){
+            var TasskModel = _context.Tasks.FirstOrDefault(x => x.Id == id);
+              
+              if(TasskModel == null){
+                    return NotFound();
+              }
+
+              _context.Tasks.Remove(TasskModel);
+
+              _context.SaveChanges();
+
+            return NoContent();
+        }
         
     }
 
