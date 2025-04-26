@@ -17,11 +17,9 @@ namespace api.Controllers
 
     public class TaskListController : ControllerBase
     {
-        private readonly ApplicationDBContext _context;
         private readonly ITasKListRepository _TaskListRepo;
-        public TaskListController(ApplicationDBContext context, ITasKListRepository TaskListRepo){
+        public TaskListController(ITasKListRepository TaskListRepo){
            _TaskListRepo = TaskListRepo;
-           _context = context; 
         }
 
         [HttpGet]
