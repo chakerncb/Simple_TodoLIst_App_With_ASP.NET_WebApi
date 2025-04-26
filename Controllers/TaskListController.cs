@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
 using api.Dtos.TaskList;
+using api.Interfaces;
 using api.Mappers;
 using api.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -17,15 +18,16 @@ namespace api.Controllers
     public class TaskListController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
-        public TaskListController(ApplicationDBContext context){
+        private readonly ITasKListRepository _TaskListRepo;
+        public TaskListController(ApplicationDBContext context, ITasKListRepository TaskListRepo){
+           _TaskListRepo = TaskListRepo;
            _context = context; 
         }
 
         [HttpGet]
 
         public async Task<IActionResult> GetAll(){
-            var TaskLists = await _context.TaskList
-            .ToListAsync();
+            var TaskLists = await _TaskListRepo.GetAllAsync();
 
             var TaskListDtos = TaskLists
             .Select(x => x.ToTaskListDto());
@@ -37,7 +39,7 @@ namespace api.Controllers
         [HttpGet("{id:int}")]
 
         public async Task<IActionResult> GetById([FromRoute] int id){
-            var TaskList = await _context.TaskList.FindAsync(id);
+            var TaskList = await _TaskListRepo.GetByIdAsync(id);
 
             if(TaskList == null){
                return NotFound();
@@ -53,8 +55,7 @@ namespace api.Controllers
         public async Task<IActionResult> Create([FromBody] CreateTaskListDto TaskListDto){
             var TaskListModel = TaskListDto.ToTaskListFromCreateDto();
 
-           await _context.TaskList.AddAsync(TaskListModel);
-           await _context.SaveChangesAsync();
+            await _TaskListRepo.CreateAsync(TaskListModel);
 
             return CreatedAtAction(nameof(GetById), new {id = TaskListModel.Id}, TaskListModel.ToTaskListDto());
 
@@ -65,18 +66,11 @@ namespace api.Controllers
         [Route("{id:int}")]
 
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateTaskListDto TaskListDto){
-            var TaskListModel = await _context.TaskList.FirstOrDefaultAsync(x => x.Id == id); 
+            var TaskListModel = await _TaskListRepo.UpdateAsync(id, TaskListDto); 
 
             if(TaskListModel == null){
                 return NotFound();
             }
-
-            TaskListModel.Name = TaskListDto.Name;
-            TaskListModel.UserId = TaskListDto.UserId;
-            TaskListModel.CreatedAt =  TaskListDto.CreatedAt;
-            TaskListModel.UpdatedAt =  TaskListDto.UpdatedAt;
-
-            await _context.SaveChangesAsync();
 
             return Ok(TaskListModel.ToTaskListDto());
 
@@ -87,14 +81,12 @@ namespace api.Controllers
         [Route("{id:int}")]
 
         public async Task<IActionResult> Delete([FromRoute] int id){
-            var TaskListModel = await _context.TaskList.FirstOrDefaultAsync(x => x.Id == id);
+            
+            var TaskListModel = await _TaskListRepo.DeleteAsync(id);
 
             if(TaskListModel == null){
-               return NotFound();
+                return NotFound();
             }
-
-                  _context.TaskList.Remove(TaskListModel);
-            await _context.SaveChangesAsync();
 
             return NoContent();
         }
