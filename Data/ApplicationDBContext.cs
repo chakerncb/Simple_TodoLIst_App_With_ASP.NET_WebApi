@@ -19,6 +19,7 @@ namespace api.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<TaskList> TaskList { get; set;} 
         public DbSet<Tassk> Tasks { get; set; }
 
 

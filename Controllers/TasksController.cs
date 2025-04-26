@@ -6,6 +6,7 @@ using api.Data;
 using api.Dtos.Tassk;
 using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {
@@ -20,15 +21,17 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll(){
-            var tasks = _context.Tasks.ToList()
-            .Select(s => s.ToTasskDto() );
-            return Ok(tasks);
+        public async Task<IActionResult> GetAll(){
+            var tasks = await _context.Tasks.ToListAsync();
+
+            var taskDtos = tasks.Select(s => s.ToTasskDto());
+            
+            return Ok(taskDtos);
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult GetById([FromRoute] int id){
-             var task = _context.Tasks.Find(id);
+        public async Task<IActionResult> GetById([FromRoute] int id){
+             var task = await _context.Tasks.FindAsync(id);
 
                if(task == null){
                    return NotFound();
@@ -40,10 +43,10 @@ namespace api.Controllers
 
         [HttpPost]
 
-        public IActionResult Create([FromBody] CreateTasskDto TasskDto){
+        public async Task<IActionResult> Create([FromBody] CreateTasskDto TasskDto){
             var TasskModel = TasskDto.ToTasskFromCreateDto();
-            _context.Tasks.Add(TasskModel);
-            _context.SaveChanges();
+            await _context.Tasks.AddAsync(TasskModel);
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetById), new {id = TasskModel.Id}, TasskModel.ToTasskDto());
         }
@@ -52,9 +55,9 @@ namespace api.Controllers
         [HttpPut]
         [Route("{id:int}")]
 
-        public IActionResult update([FromRoute] int id, [FromBody] UpdateTasskDto TasskDto){
+        public async Task<IActionResult> update([FromRoute] int id, [FromBody] UpdateTasskDto TasskDto){
 
-            var TasskModel = _context.Tasks.FirstOrDefault(x => x.Id == id);
+            var TasskModel = await _context.Tasks.FirstOrDefaultAsync(x => x.Id == id);
 
             if(TasskModel == null){
                 return NotFound();
@@ -68,7 +71,7 @@ namespace api.Controllers
             TasskModel.IsDeleted = TasskDto.IsDeleted;
             TasskModel.updatedAt = TasskDto.updatedAt;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Ok(TasskModel.ToTasskDto());
 
@@ -76,18 +79,18 @@ namespace api.Controllers
 
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:int}")]
 
-        public IActionResult Delete([FromRoute] int id){
-            var TasskModel = _context.Tasks.FirstOrDefault(x => x.Id == id);
+        public async Task<IActionResult> Delete([FromRoute] int id){
+            var TasskModel = await _context.Tasks.FirstOrDefaultAsync(x => x.Id == id);
               
               if(TasskModel == null){
                     return NotFound();
               }
 
-              _context.Tasks.Remove(TasskModel);
+                    _context.Tasks.Remove(TasskModel);
 
-              _context.SaveChanges();
+              await _context.SaveChangesAsync();
 
             return NoContent();
         }
