@@ -60,9 +60,12 @@ namespace api.Controllers
                 return NotFound();
             }
 
+            TasskModel.TaskListId = TasskDto.TaskListId;
             TasskModel.Title = TasskDto.Title;
             TasskModel.Description = TasskDto.Description;
-            TasskModel.Duration = TasskDto.Duration;
+            TasskModel.Deadline = TasskDto.Deadline;
+            TasskModel.IsCompleted = TasskDto.IsCompleted;
+            TasskModel.IsDeleted = TasskDto.IsDeleted;
             TasskModel.updatedAt = TasskDto.updatedAt;
 
             _context.SaveChanges();

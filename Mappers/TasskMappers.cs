@@ -13,9 +13,12 @@ namespace api.Mappers
         public static TasskDto ToTasskDto(this Tassk TasskModel){
             return new TasskDto{
                  Id = TasskModel.Id,
+                 TaskListId = TasskModel.TaskListId,
                  Title = TasskModel.Title,
                  Description = TasskModel.Description,
-                 Duration = TasskModel.Duration,
+                 Deadline = TasskModel.Deadline,
+                 IsCompleted = TasskModel.IsCompleted,
+                 IsDeleted = TasskModel.IsDeleted,
                  createdAt = TasskModel.createdAt,
                  updatedAt = TasskModel.updatedAt
             };
@@ -24,23 +27,27 @@ namespace api.Mappers
 
         public static Tassk ToTasskFromCreateDto(this CreateTasskDto TasskDto){
             return new Tassk{
+                 TaskListId = TasskDto.TaskListId,
                  Title = TasskDto.Title,
                  Description = TasskDto.Description,
-                 Duration = TasskDto.Duration,
+                 Deadline = TasskDto.Deadline,
+                 IsCompleted = TasskDto.IsCompleted,
+                 IsDeleted = TasskDto.IsDeleted,
                  createdAt = TasskDto.createdAt,
                  updatedAt = TasskDto.updatedAt,
-                //  UserId = TasskDto.UserId
             };
         }
 
         public static Tassk ToTasskFromUpdateDto(this UpdateTasskDto TasskDto){
              return new Tassk{
+                 TaskListId = TasskDto.TaskListId,
                  Title = TasskDto.Title,
                  Description = TasskDto.Description,
-                 Duration = TasskDto.Duration,
-                //  createdAt = TasskDto.createdAt,
+                 Deadline = TasskDto.Deadline,
+                 IsCompleted = TasskDto.IsCompleted,
+                 IsDeleted = TasskDto.IsDeleted,
+                 createdAt = TasskDto.createdAt,
                  updatedAt = TasskDto.updatedAt,
-                 UserId = TasskDto.UserId
             };
         }
 

@@ -12,7 +12,8 @@ namespace api.Models
         public string Email { get; set; } = string.Empty; 
         public string Password { get; set; } = string.Empty; 
 
-        public List<Tassk> Tasks { get; set; } = new List<Tassk>();
+        // public List<Tassk> Tasks { get; set; } = new List<Tassk>();
+        public ICollection<TaskList> TaskLists { get; set; } = new List<TaskList>();
 
     }
 }
