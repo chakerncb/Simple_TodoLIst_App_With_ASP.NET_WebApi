@@ -3259,11 +3259,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\raouf\\Desktop\\C# Tutorial\\api\\api.csproj",
+      "projectUniqueName": "C:\\Users\\raouf\\Desktop\\New folder (2)\\C# Tutorial\\api\\api.csproj",
       "projectName": "api",
-      "projectPath": "C:\\Users\\raouf\\Desktop\\C# Tutorial\\api\\api.csproj",
+      "projectPath": "C:\\Users\\raouf\\Desktop\\New folder (2)\\C# Tutorial\\api\\api.csproj",
       "packagesPath": "C:\\Users\\raouf\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\raouf\\Desktop\\C# Tutorial\\api\\obj\\",
+      "outputPath": "C:\\Users\\raouf\\Desktop\\New folder (2)\\C# Tutorial\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\raouf\\AppData\\Roaming\\NuGet\\NuGet.Config"
