@@ -15,7 +15,7 @@ namespace api.Dtos.Tassk
          public bool IsCompleted { get; set; } = false;
          public bool IsDeleted { get; set; } = false;
          public DateTime createdAt { get; set; } = DateTime.Now;
-         public DateTime updatedAt { get; set; } 
+         public DateTime updatedAt { get; set; }  = DateTime.Now;
 
     }
 }

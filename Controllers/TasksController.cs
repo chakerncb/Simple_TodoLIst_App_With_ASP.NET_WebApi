@@ -15,12 +15,12 @@ namespace api.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private readonly ApplicationDBContext _context;
         private readonly ITasskRepository _tasskRepository;
-        public TasksController(ApplicationDBContext context, ITasskRepository tasskRepository)
+        private readonly ITasKListRepository _taskListRepository;
+        public TasksController(ITasskRepository tasskRepository, ITasKListRepository taskListRepository)
         {
+           _taskListRepository = taskListRepository;
            _tasskRepository = tasskRepository;
-           _context = context;
         }
 
         [HttpGet]
@@ -47,6 +47,13 @@ namespace api.Controllers
         [HttpPost]
 
         public async Task<IActionResult> Create([FromBody] CreateTasskDto TasskDto){
+
+            var taskList = await _taskListRepository.GetByIdAsync(TasskDto.TaskListId);
+
+            if(taskList == null){
+                return NotFound("TaskList not found");
+            }
+
             var TasskModel = TasskDto.ToTasskFromCreateDto();
 
             await _tasskRepository.CreateAsync(TasskModel);

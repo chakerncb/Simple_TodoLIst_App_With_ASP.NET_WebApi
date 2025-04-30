@@ -48,6 +48,11 @@ namespace api.Repository
             return await _context.TaskList.FindAsync(id);
         }
 
+        public async Task<bool> TaskListExists(int id)
+        {
+            return await _context.TaskList.AnyAsync(x => x.Id == id);
+        }
+
         public async Task<TaskList?> UpdateAsync(int id, UpdateTaskListDto TaskListDto)
         {
             var existingTaskList = await _context.TaskList.FirstOrDefaultAsync(x => x.Id == id); 

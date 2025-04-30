@@ -14,6 +14,7 @@ namespace api.Interfaces
         Task<TaskList> CreateAsync(TaskList TaskListModel);
         Task<TaskList?> UpdateAsync(int id , UpdateTaskListDto TaskListDto);
         Task<TaskList?> DeleteAsync(int id);
+        Task<bool> TaskListExists(int id);
 
     }
 }
