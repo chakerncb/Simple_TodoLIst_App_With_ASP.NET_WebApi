@@ -1,2 +1,57 @@
+## Build results
+bin/
+obj/
+out/
+Generated_Code/
+
+## User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Visual Studio files
+.vscode/
+.vs/
+
+## ASP.NET secrets
+secrets.json
+
+## Rider project files
+.idea/
+
+## Dependency folders
+node_modules/
+packages/
+
+## Logs
+*.log
+
+## NuGet packages
+*.nupkg
+*.snupkg
+.nuget/
+
+## Publish results
+*.publishsettings
+publish/
+App_Data/
+
+## Transient files
+*.dbmdl
+*.bak
+*.orig
+
+## Configuration files (optional)
+appsettings.Development.json
+appsettings.Local.json
 appsettings.json
 .fake
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## DotNet tools
+.dotnet-tools.json
