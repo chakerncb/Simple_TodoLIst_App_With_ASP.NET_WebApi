@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
 using api.Dtos.Tassk;
+using api.Helpers;
 using api.Interfaces;
 using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
@@ -24,13 +25,13 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(){
+        public async Task<IActionResult> GetAll([FromQuery] QueryObject query){
 
             if(!ModelState.IsValid){
                 return BadRequest(ModelState);
             }
 
-            var tasks = await _tasskRepository.GetAllAsync();
+            var tasks = await _tasskRepository.GetAllAsync(query);
 
             var taskDtos = tasks.Select(s => s.ToTasskDto());
             

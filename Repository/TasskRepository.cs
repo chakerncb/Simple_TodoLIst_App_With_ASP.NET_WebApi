@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
 using api.Dtos.Tassk;
+using api.Helpers;
 using api.Interfaces;
 using api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -41,11 +42,17 @@ namespace api.Repository
             return TasskModel;
         }
 
-        public async Task<List<Tassk>> GetAllAsync()
+        public async Task<List<Tassk>> GetAllAsync(QueryObject query)
         {
-            return await _context.Tasks.ToListAsync();
+            var Tassks = _context.Tasks.AsQueryable();
+
+            if(!string.IsNullOrEmpty(query.TaskName)){
+                Tassks = Tassks.Where(x => x.Title.Contains(query.TaskName));
+            }
+
+            return await Tassks.ToListAsync();
+
         }
-            
 
         public async Task<Tassk?> GetByIdAsync(int id)
         {
