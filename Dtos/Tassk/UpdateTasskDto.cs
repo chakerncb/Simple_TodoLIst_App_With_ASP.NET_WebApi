@@ -20,6 +20,8 @@ namespace api.Dtos.Tassk
         [Required]
         [MinLength(10 , ErrorMessage = "Description must be at least 10 characters long")]
         [MaxLength(255 , ErrorMessage = "Description must be at most 255 characters long")]
+
+         public string Description { get; set; } = string.Empty;
          public DateTime Deadline  { get; set; }
          public bool IsCompleted { get; set; } = false;
          public bool IsDeleted { get; set; } = false;

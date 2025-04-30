@@ -25,6 +25,11 @@ namespace api.Controllers
         [HttpGet]
 
         public async Task<IActionResult> GetAll(){
+
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+
             var TaskLists = await _TaskListRepo.GetAllAsync();
 
             var TaskListDtos = TaskLists
@@ -37,6 +42,11 @@ namespace api.Controllers
         [HttpGet("{id:int}")]
 
         public async Task<IActionResult> GetById([FromRoute] int id){
+
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+
             var TaskList = await _TaskListRepo.GetByIdAsync(id);
 
             if(TaskList == null){
@@ -51,6 +61,11 @@ namespace api.Controllers
         [HttpPost]
 
         public async Task<IActionResult> Create([FromBody] CreateTaskListDto TaskListDto){
+
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+
             var TaskListModel = TaskListDto.ToTaskListFromCreateDto();
 
             await _TaskListRepo.CreateAsync(TaskListModel);
@@ -64,6 +79,11 @@ namespace api.Controllers
         [Route("{id:int}")]
 
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateTaskListDto TaskListDto){
+
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+
             var TaskListModel = await _TaskListRepo.UpdateAsync(id, TaskListDto); 
 
             if(TaskListModel == null){
@@ -79,6 +99,10 @@ namespace api.Controllers
         [Route("{id:int}")]
 
         public async Task<IActionResult> Delete([FromRoute] int id){
+
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
             
             var TaskListModel = await _TaskListRepo.DeleteAsync(id);
 

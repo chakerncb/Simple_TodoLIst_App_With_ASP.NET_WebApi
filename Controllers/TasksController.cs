@@ -25,6 +25,11 @@ namespace api.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAll(){
+
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+
             var tasks = await _tasskRepository.GetAllAsync();
 
             var taskDtos = tasks.Select(s => s.ToTasskDto());
@@ -34,6 +39,11 @@ namespace api.Controllers
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id){
+
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+
              var task = await _tasskRepository.GetByIdAsync(id);
 
                if(task == null){
@@ -47,6 +57,10 @@ namespace api.Controllers
         [HttpPost]
 
         public async Task<IActionResult> Create([FromBody] CreateTasskDto TasskDto){
+
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
 
             var taskList = await _taskListRepository.GetByIdAsync(TasskDto.TaskListId);
 
@@ -67,6 +81,10 @@ namespace api.Controllers
 
         public async Task<IActionResult> update([FromRoute] int id, [FromBody] UpdateTasskDto TasskDto){
 
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+
             var TasskModel = await _tasskRepository.UpdateAsync(id, TasskDto);
 
             if(TasskModel == null){
@@ -82,6 +100,10 @@ namespace api.Controllers
         [Route("{id:int}")]
 
         public async Task<IActionResult> Delete([FromRoute] int id){
+
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
             
             var TasskModel = await _tasskRepository.DeleteAsync(id);
 
