@@ -9,7 +9,7 @@ namespace api.Dtos.TaskList
     public class UpdateTaskListDto
     {
         [Required]
-        public int UserId { get; set; }
+        public string? UserId { get; set; }
 
         [Required]
         [MinLength(10 , ErrorMessage = "Name cannot be longer than 10 characters.")]
