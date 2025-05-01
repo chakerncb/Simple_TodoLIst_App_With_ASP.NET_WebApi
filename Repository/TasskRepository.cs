@@ -50,7 +50,11 @@ namespace api.Repository
                 Tassks = Tassks.Where(x => x.Title.Contains(query.TaskName));
             }
 
-            return await Tassks.ToListAsync();
+            var skipNumber = (query.PageNumber - 1) * query.PageSize;
+
+            var takeNumber = query.PageSize;
+
+            return await Tassks.Skip(skipNumber).Take(takeNumber).ToListAsync();
 
         }
 
