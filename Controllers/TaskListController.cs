@@ -23,13 +23,14 @@ namespace api.Controllers
            _TaskListRepo = TaskListRepo;
         }
 
+        [Authorize(Roles = "User")]
+
         [HttpGet]
-        [Authorize]
 
         public async Task<IActionResult> GetAll(){
 
             if(!ModelState.IsValid){
-                return BadRequest(ModelState);
+            return BadRequest(ModelState);
             }
 
             var TaskLists = await _TaskListRepo.GetAllAsync();
