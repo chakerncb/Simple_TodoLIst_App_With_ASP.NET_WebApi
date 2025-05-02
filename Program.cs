@@ -1,6 +1,7 @@
 using api.Data;
 using api.Interfaces;
 using api.Models;
+using api.Repository;
 using api.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -85,6 +86,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ITokenService, TokernService>();
 var app = builder.Build();
 

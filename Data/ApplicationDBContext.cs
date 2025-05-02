@@ -31,6 +31,7 @@ namespace api.Data
             {
                 new IdentityRole{Id = "1a2b3c4d-0000-0000-0000-000000000001", Name = "Admin" , NormalizedName = "ADMIN" },
                 new IdentityRole{Id = "1a2b3c4d-0000-0000-0000-000000000002", Name = "User" , NormalizedName = "USER" },
+                new IdentityRole{Id = "1a2b3c4d-0000-0000-0000-000000000003", Name = "Responsable" , NormalizedName = "RESPONSABLE" },
             };
 
             builder.Entity<IdentityRole>().HasData(roles);
