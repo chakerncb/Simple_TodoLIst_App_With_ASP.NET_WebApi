@@ -3,6 +3,7 @@ using api.Data;
 using api.Interfaces;
 using api.Models;
 using api.Repository;
+using api.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -58,6 +59,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddScoped<ITasKListRepository, TaskListRepository>();
 builder.Services.AddScoped<ITasskRepository, TasskRepository>();
+builder.Services.AddScoped<ITokenService, TokernService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
